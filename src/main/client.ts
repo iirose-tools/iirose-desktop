@@ -11,23 +11,22 @@ import {
 import contextMenu from 'electron-context-menu';
 import ElectronStore from 'electron-store';
 import * as fs from 'fs';
+import * as _ from 'lodash';
 import { autorun, observe } from 'mobx';
 import { getSnapshot } from 'mobx-state-tree';
 import * as path from 'path';
-import { AppState } from '../common/state';
+import { AppState, AppStateSnapshot } from '../common/state';
 import { CONTEXT_MENU_OPTIONS } from './context-menu';
 
 export class Client {
   private tray: Tray | null = null;
   private mainWindow: BrowserWindow | null = null;
 
-  private readonly state = AppState.create({
-    alwaysOnTop: true,
-    transparent: true
-  });
+  private readonly state: AppState;
 
   private readonly store = new ElectronStore<{
     windowBounds?: Rectangle;
+    state?: AppStateSnapshot;
   }>();
 
   private readonly scripts = {
@@ -36,6 +35,16 @@ export class Client {
       'utf8'
     )
   };
+
+  constructor() {
+    const stateSnapshot = this.store.get('state');
+    this.state = AppState.create(
+      _.defaults(stateSnapshot, {
+        alwaysOnTop: true,
+        transparent: true
+      })
+    );
+  }
 
   public async start(): Promise<void> {
     app.disableHardwareAcceleration();
@@ -69,7 +78,7 @@ export class Client {
 
   private async createWindow(): Promise<void> {
     this.mainWindow = new BrowserWindow({
-      transparent: this.state.transparent,
+      transparent: true,
       frame: false,
       fullscreenable: false,
       webPreferences: {
@@ -93,6 +102,9 @@ export class Client {
     });
 
     this.mainWindow.on('close', () => {
+      const snapshot = getSnapshot(this.state);
+      this.store.set('state', snapshot);
+
       this.store.set('windowBounds', this.mainWindow!.getBounds());
     });
 

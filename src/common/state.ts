@@ -1,6 +1,12 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, IStateTreeNode, IType, types } from 'mobx-state-tree';
 
 export type AppState = Instance<typeof AppState>;
+
+export type AppStateSnapshot = AppState extends IStateTreeNode<
+  IType<infer T, any, any>
+>
+  ? T
+  : never;
 
 export const AppState = types
   .model({
