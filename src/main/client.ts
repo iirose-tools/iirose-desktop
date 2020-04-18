@@ -22,6 +22,7 @@ export class Client {
   private mainWindow: BrowserWindow | null = null;
 
   private readonly state = AppState.create({
+    alwaysOnTop: true,
     transparent: true
   });
 
@@ -114,15 +115,23 @@ export class Client {
 
   private setupReactions(): void {
     autorun(() => {
-      const { transparent } = this.state;
+      const { alwaysOnTop } = this.state;
 
-      this.mainWindow!.setAlwaysOnTop(transparent);
-      this.mainWindow!.setSkipTaskbar(transparent);
+      this.mainWindow!.setAlwaysOnTop(alwaysOnTop);
+      this.mainWindow!.setSkipTaskbar(alwaysOnTop);
     });
   }
 
   private getContextMenuOptions(): MenuItemConstructorOptions[] {
     return [
+      {
+        label: '置顶(&A)',
+        type: 'checkbox',
+        checked: this.state.alwaysOnTop,
+        click: item => {
+          this.state.setAlwaysOnTop(item.checked);
+        }
+      },
       {
         label: '启用透明模式(&T)',
         type: 'checkbox',
@@ -131,6 +140,7 @@ export class Client {
           this.state.setTransparent(item.checked);
         }
       },
+      { type: 'separator' },
       {
         label: '退出(&Q)',
         click: () => {
