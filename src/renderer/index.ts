@@ -1,6 +1,6 @@
 import { ipcRenderer, remote } from 'electron';
 import { applySnapshot } from 'mobx-state-tree';
-import { AppState } from '../common/state';
+import { AppState, AppStateSnapshot } from '../common/state';
 import { TransparencyReaction } from './reactions/transparency';
 
 export class MainWindowRenderer {
@@ -8,7 +8,7 @@ export class MainWindowRenderer {
 
   public async main(): Promise<void> {
     ipcRenderer.send('mainStart');
-    ipcRenderer.on('applyState', async (_event, state: AppState) => {
+    ipcRenderer.on('applyState', async (_event, state: AppStateSnapshot) => {
       if (!this.state) {
         this.state = AppState.create(state);
         await this.setupReactions(this.state);
