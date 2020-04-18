@@ -36,14 +36,8 @@ export class Client {
     )
   };
 
-  public start(): void {
-    app.on('ready', async () => {
-      this.createTray();
-      await this.createWindow();
-
-      this.setupIpc();
-      this.setupReactions();
-    });
+  public async start(): Promise<void> {
+    app.disableHardwareAcceleration();
 
     app.on('window-all-closed', () => {
       if (process.platform !== 'darwin') {
@@ -51,11 +45,13 @@ export class Client {
       }
     });
 
-    app.on('activate', () => {
-      if (this.mainWindow === null) {
-        this.createWindow();
-      }
-    });
+    await app.whenReady();
+
+    this.createTray();
+    await this.createWindow();
+
+    this.setupIpc();
+    this.setupReactions();
   }
 
   private createTray(): void {
