@@ -1,0 +1,21 @@
+{
+  "appId": "com.iirose.desktop",
+  "productName": "IIROSE Desktop",
+  "artifactName": "iirose-desktop-${version}-${os}.${ext}",
+  "files": {
+    "filter": ["build/**"]
+  },
+  "icon": "build/assets/app.ico",
+  "win": {
+    "target": {
+      "target": "nsis",
+      "arch": ["ia32", "x64"]
+    }
+  },
+  "nsis": {
+    "shortcutName": "IIROSE",
+    "allowToChangeInstallationDirectory": true,
+    "oneClick": false,
+    "perMachine": true
+  }
+}

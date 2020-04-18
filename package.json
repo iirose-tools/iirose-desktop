@@ -1,0 +1,51 @@
+{
+  "name": "iirose-desktop",
+  "version": "0.1.0",
+  "description": "IIROSE Desktop Client",
+  "author": "Flower-Q",
+  "license": "MIT",
+  "main": "build/main/index.js",
+  "scripts": {
+    "clean": "rimraf build dist",
+    "prebuild": "rimraf build",
+    "build": "yarn build:tsc && yarn build:webpack",
+    "build:tsc": "tsc -p tsconfig.json",
+    "build:webpack": "webpack --config webpack.config.ts && rimraf build/renderer/!(index.js)",
+    "postbuild": "cpx assets/** build/assets",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "prestart": "yarn build",
+    "start": "electron ./build/main/index.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "electron-context-menu": "^1.0.0",
+    "electron-store": "^5.1.1",
+    "lodash": "^4.17.15",
+    "mobx": "^5.15.4",
+    "mobx-state-tree": "^3.16.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/lodash": "^4.14.150",
+    "@types/node": "12.12.6",
+    "@types/webpack": "^4.41.11",
+    "cpx": "^1.5.0",
+    "electron": "^8.2.3",
+    "electron-builder": "^22.5.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.4",
+    "prettier": "^2.0.4",
+    "rimraf": "^3.0.2",
+    "standard-version": "^7.1.0",
+    "ts-node": "^8.8.2",
+    "tslint": "^6.1.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
