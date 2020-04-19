@@ -1,7 +1,8 @@
 import { autorun } from 'mobx';
 import { AppState } from '../../common/state';
+import { Reaction } from './reaction';
 
-export class TransparencyReaction {
+export class TransparencyReaction implements Reaction {
   private bgStyleObserver: MutationObserver | null = null;
 
   public init(state: AppState): void {
