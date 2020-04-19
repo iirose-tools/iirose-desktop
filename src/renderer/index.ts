@@ -1,12 +1,13 @@
 import { ipcRenderer, remote } from 'electron';
 import { applySnapshot } from 'mobx-state-tree';
 import { AppState, AppStateSnapshot } from '../common/state';
-import { TransparencyReaction } from './reactions/transparency';
+import { DanmakuReaction, TransparencyReaction } from './reactions';
 
 export class MainWindowRenderer {
   private state?: AppState;
 
   public async main(): Promise<void> {
+    ipcRenderer.removeAllListeners('applyState');
     ipcRenderer.send('mainStart');
     ipcRenderer.on('applyState', async (_event, state: AppStateSnapshot) => {
       if (!this.state) {
@@ -18,9 +19,9 @@ export class MainWindowRenderer {
     });
   }
 
-  private async setupReactions(state: AppState): Promise<void> {
-    const transparencyReaction = new TransparencyReaction();
-    transparencyReaction.init(state);
+  private setupReactions(state: AppState): void {
+    const reactions = [new DanmakuReaction(), new TransparencyReaction()];
+    reactions.forEach(reaction => reaction.init(state));
   }
 }
 

@@ -26,7 +26,7 @@ export class Client {
 
   private readonly store = new ElectronStore<{
     windowBounds?: Rectangle;
-    state?: AppStateSnapshot;
+    state?: Partial<AppStateSnapshot>;
   }>();
 
   private readonly scripts = {
@@ -41,6 +41,7 @@ export class Client {
     this.state = AppState.create(
       _.defaults(stateSnapshot, {
         alwaysOnTop: true,
+        danmaku: false,
         transparent: true
       })
     );
@@ -145,7 +146,15 @@ export class Client {
         }
       },
       {
-        label: '启用透明模式(&T)',
+        label: '启用弹幕模式(&D)',
+        type: 'checkbox',
+        checked: this.state.danmaku,
+        click: item => {
+          this.state.setDanmaku(item.checked);
+        }
+      },
+      {
+        label: '启用透明模式(&R)',
         type: 'checkbox',
         checked: this.state.transparent,
         click: item => {
