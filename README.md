@@ -1,3 +1,5 @@
+<img alt="IIROSE Desktop" src="https://i.loli.net/2020/04/20/SkNbXPWRBEsuY4I.png" width="150" />
+
 # IIROSE Desktop
 
 [![Build/Release Status](https://github.com/iirose-tools/iirose-desktop/workflows/Build/release/badge.svg)](../../actions)
