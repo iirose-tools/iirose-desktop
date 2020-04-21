@@ -1,7 +1,11 @@
 import { ipcRenderer, remote } from 'electron';
 import { applySnapshot } from 'mobx-state-tree';
 import { AppState, AppStateSnapshot } from '../common/state';
-import { DanmakuReaction, TransparencyReaction } from './reactions';
+import {
+  DanmakuReaction,
+  DraggableInputReaction,
+  TransparencyReaction
+} from './reactions';
 
 export class MainWindowRenderer {
   private state?: AppState;
@@ -20,7 +24,12 @@ export class MainWindowRenderer {
   }
 
   private setupReactions(state: AppState): void {
-    const reactions = [new DanmakuReaction(), new TransparencyReaction()];
+    const reactions = [
+      new DanmakuReaction(),
+      new DraggableInputReaction(),
+      new TransparencyReaction()
+    ];
+
     reactions.forEach(reaction => reaction.init(state));
   }
 }

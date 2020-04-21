@@ -1,4 +1,4 @@
-declare const mainFrame: any;
+declare const mainFrame: HTMLIFrameElement;
 
 interface Window {
   ipcRenderer: Electron.IpcRenderer;
