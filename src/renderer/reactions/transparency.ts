@@ -57,7 +57,7 @@ export class TransparencyReaction implements Reaction {
   }
 
   private getBackgroundElement(): HTMLElement {
-    return mainFrame.contentDocument.getElementById('bodyBG');
+    return mainFrame.contentDocument!.getElementById('bodyBG')!;
   }
 
   private makeElementTransparent(element: HTMLElement): void {
