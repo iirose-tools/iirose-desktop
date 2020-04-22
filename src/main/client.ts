@@ -132,7 +132,7 @@ export class Client {
     autorun(() => {
       const { alwaysOnTop } = this.state;
 
-      this.mainWindow!.setAlwaysOnTop(alwaysOnTop);
+      this.mainWindow!.setAlwaysOnTop(alwaysOnTop, 'pop-up-menu', 1);
       this.mainWindow!.setSkipTaskbar(alwaysOnTop);
     });
   }
