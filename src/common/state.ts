@@ -10,11 +10,15 @@ export type AppStateSnapshot = AppState extends IStateTreeNode<
 
 export const AppState = types
   .model({
+    moveWindow: true,
     alwaysOnTop: types.boolean,
     danmaku: types.boolean,
     transparent: types.boolean
   })
   .actions(self => ({
+    triggerMoveWindow: () => {
+      self.moveWindow = !self.moveWindow;
+    },
     setAlwaysOnTop: (value: boolean) => {
       self.alwaysOnTop = value;
     },

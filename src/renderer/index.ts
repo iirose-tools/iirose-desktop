@@ -4,6 +4,7 @@ import { AppState, AppStateSnapshot } from '../common/state';
 import {
   DanmakuReaction,
   DraggableInputReaction,
+  MoveWindowReaction,
   TransparencyReaction
 } from './reactions';
 
@@ -27,6 +28,7 @@ export class MainWindowRenderer {
     const reactions = [
       new DanmakuReaction(),
       new DraggableInputReaction(),
+      new MoveWindowReaction(),
       new TransparencyReaction()
     ];
 

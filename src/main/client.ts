@@ -81,6 +81,8 @@ export class Client {
     this.mainWindow = new BrowserWindow({
       transparent: true,
       frame: false,
+      maximizable: false,
+      minimizable: false,
       fullscreenable: false,
       webPreferences: {
         nodeIntegration: true
@@ -137,6 +139,11 @@ export class Client {
 
   private getContextMenuOptions(): MenuItemConstructorOptions[] {
     return [
+      {
+        label: '移动（&M）',
+        type: 'normal',
+        click: () => this.state.triggerMoveWindow()
+      },
       {
         label: '置顶(&A)',
         type: 'checkbox',
