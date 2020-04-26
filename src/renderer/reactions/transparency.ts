@@ -1,9 +1,10 @@
 import { autorun } from 'mobx';
 import { AppState } from '../../common/state';
+import { injectCss } from '../utils/inject-css';
 import { Reaction } from './reaction';
 
 export class TransparencyReaction implements Reaction {
-  private bgStyleObserver: MutationObserver | null = null;
+  private unset: (() => void) | null = null;
 
   public init(state: AppState): void {
     autorun(() => {
@@ -17,59 +18,28 @@ export class TransparencyReaction implements Reaction {
   }
 
   private setTransparent(): void {
-    this.makeElementTransparent(this.getBodyElement());
-    this.makeElementTransparent(this.getMainFrameElement());
+    if (!this.unset) {
+      const documentCss = '#mainFrame,body{background-color:#0000!important}';
+      const mainFrameCss =
+        '#bodyBG,#msgholderDisplay>div:nth-child(1){visibility:hidden}';
 
-    const background = this.getBackgroundElement();
-    this.makeElementHidden(background);
+      const documentCssElement = injectCss(documentCss);
+      const mainFrameCssElement = injectCss(
+        mainFrameCss,
+        mainFrame.contentDocument!
+      );
 
-    if (!this.bgStyleObserver) {
-      this.bgStyleObserver = new MutationObserver(() => {
-        this.makeElementHidden(background);
-      });
-
-      this.bgStyleObserver.observe(background, {
-        attributes: true,
-        attributeFilter: ['style']
-      });
+      this.unset = () => {
+        documentCssElement.remove();
+        mainFrameCssElement.remove();
+      };
     }
   }
 
   private unsetTransparent(): void {
-    if (this.bgStyleObserver) {
-      this.bgStyleObserver.disconnect();
-      this.bgStyleObserver = null;
-
-      this.makeElementVisible(this.getBodyElement());
-      this.makeElementVisible(this.getMainFrameElement());
-
-      const bodyBG = this.getBackgroundElement();
-      bodyBG.style.visibility = null as any;
+    if (this.unset) {
+      this.unset();
+      this.unset = null;
     }
-  }
-
-  private getBodyElement(): HTMLBodyElement {
-    return document.getElementsByTagName('body')[0];
-  }
-
-  private getMainFrameElement(): HTMLElement {
-    return document.getElementById('mainFrame')!;
-  }
-
-  private getBackgroundElement(): HTMLElement {
-    return mainFrame.contentDocument!.getElementById('bodyBG')!;
-  }
-
-  private makeElementTransparent(element: HTMLElement): void {
-    element.style.backgroundColor = 'rgba(0,0,0,0)';
-  }
-
-  private makeElementHidden(element: HTMLElement): void {
-    element.style.visibility = 'hidden';
-  }
-
-  private makeElementVisible(element: HTMLElement): void {
-    element.style.opacity = '';
-    element.style.backgroundColor = 'rgba(0,0,0)';
   }
 }

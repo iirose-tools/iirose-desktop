@@ -1,6 +1,9 @@
-export function injectCss(css: string): HTMLStyleElement {
-  const style = document.createElement('style');
+export function injectCss(
+  css: string,
+  doc: HTMLDocument = document
+): HTMLStyleElement {
+  const style = doc.createElement('style');
   style.innerText = css;
 
-  return mainFrame.contentDocument!.head.appendChild(style);
+  return doc.head.appendChild(style);
 }
