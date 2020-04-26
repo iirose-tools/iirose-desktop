@@ -86,7 +86,8 @@ export class DraggableInputReaction implements Reaction {
 
   private changeInputDisplayStyle(): HTMLStyleElement {
     return injectCss(
-      '#moveinputDisplay{display:flex;flex-direction:row}#moveinputBubble{position:relative}.moveinputSendBtn{position:relative}'
+      '#moveinputDisplay{display:flex;flex-direction:row}#moveinputBubble{position:relative}.moveinputSendBtn{position:relative}',
+      mainFrame.contentDocument!
     );
   }
 }
