@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/iirose-tools/iirose-desktop/compare/v1.2.0...v1.3.0) (2020-04-30)
+
+
+### Features
+
+* 在弹幕模式下禁用鼠标滚动 ([#18](https://github.com/iirose-tools/iirose-desktop/issues/18)) ([17ed460](https://github.com/iirose-tools/iirose-desktop/commit/17ed460eb16583b2a622de53c1e1fe3239925b06))
+* 将 加号/发送 按钮固定在输入框右边 ([#19](https://github.com/iirose-tools/iirose-desktop/issues/19)) ([114ddfc](https://github.com/iirose-tools/iirose-desktop/commit/114ddfcb8614bd4dccd96c8d4c1ff1378e8c6931))
+* 置顶模式时始终保持在任务栏和其他全屏软件（如视频播放器）上方 ([#14](https://github.com/iirose-tools/iirose-desktop/issues/14)) ([363d6d7](https://github.com/iirose-tools/iirose-desktop/commit/363d6d7baf5e10bfbafc129ca1e8e24579e2f8c3))
+
+
+### Bug Fixes
+
+* 修复“移动”功能时常失效的问题 ([#17](https://github.com/iirose-tools/iirose-desktop/issues/17)) ([2749289](https://github.com/iirose-tools/iirose-desktop/commit/2749289463cb255511d0f09e2415ee1eb501e25c))
+* 修复弹幕模式失效 ([#16](https://github.com/iirose-tools/iirose-desktop/issues/16)) ([065cb7a](https://github.com/iirose-tools/iirose-desktop/commit/065cb7a0a273ca1f95c09a850ba8c703df7136f9))
+* 修复沉浸模式下渐变阴影部分无法拖拽的问题 ([#15](https://github.com/iirose-tools/iirose-desktop/issues/15)) ([ffe218e](https://github.com/iirose-tools/iirose-desktop/commit/ffe218e0a2f3e7cfe8dc697fc97838682f9396da))
+
 ## [1.2.0](https://github.com/iirose-tools/iirose-desktop/compare/v0.1.0...v1.2.0) (2020-04-22)
 
 
