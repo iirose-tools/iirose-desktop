@@ -7,6 +7,8 @@ export class DraggableInputReaction implements Reaction {
   private unset: (() => void) | null = null;
 
   public init(state: AppState): void {
+    this.changeInputDisplayStyle();
+
     autorun(() => {
       const { danmaku } = state;
       if (danmaku) {
@@ -23,14 +25,7 @@ export class DraggableInputReaction implements Reaction {
 
       if (doc) {
         const element = doc.getElementById('moveinputDisplay')!;
-
-        const unmake = this.makeElementDraggable(doc, element);
-        const cssElement = this.changeInputDisplayStyle();
-
-        this.unset = () => {
-          unmake();
-          cssElement.remove();
-        };
+        this.unset = this.makeElementDraggable(doc, element);
       }
     }
   }
