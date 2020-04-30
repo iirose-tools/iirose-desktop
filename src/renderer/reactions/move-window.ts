@@ -1,11 +1,14 @@
 import { observe } from 'mobx';
 import { AppState } from '../../common/state';
+import { injectCss } from '../utils/inject-css';
 import { Reaction } from './reaction';
 
 export class MoveWindowReaction implements Reaction {
   private dragContainer: HTMLElement | null = null;
 
   public init(state: AppState): void {
+    this.addMaterialIconLibToDocument();
+
     observe(state, 'moveWindow', () => {
       if (!this.dragContainer) {
         this.dragContainer = this.createDragContainer(() => {
@@ -14,6 +17,19 @@ export class MoveWindowReaction implements Reaction {
         });
       }
     });
+  }
+
+  private addMaterialIconLibToDocument(): void {
+    injectCss(
+      "@font-face{font-family:md;src:url(lib/system/font/md/materialdesignicons-webfont.woff2) format('woff2'),url(lib/system/font/md/materialdesignicons-webfont.woff) format('woff');font-weight:400;font-style:normal;font-display:block}"
+    );
+
+    const element = document.createElement('link');
+    element.href = 'lib/css/app/server/materialdesignicons.css';
+    element.rel = 'stylesheet';
+    element.type = 'text/css';
+
+    document.head.appendChild(element);
   }
 
   private createDragContainer(onFinish: () => void): HTMLElement {
@@ -25,11 +41,11 @@ export class MoveWindowReaction implements Reaction {
     const finishButton = this.createFinishButton(onFinish);
     container.appendChild(finishButton);
 
-    return mainFrame.contentDocument!.body.appendChild(container);
+    return document.body.appendChild(container);
   }
 
   private createDragIcon(): HTMLElement {
-    const dragIcon = document.createElement('button');
+    const dragIcon = document.createElement('i');
     dragIcon.className = 'mdi mdi-arrow-all';
 
     dragIcon.style.position = 'absolute';
@@ -49,7 +65,7 @@ export class MoveWindowReaction implements Reaction {
   }
 
   private createFinishButton(onClick: () => void): HTMLElement {
-    const finishButton = document.createElement('button');
+    const finishButton = document.createElement('i');
 
     finishButton.className = 'mdi mdi-checkbox-marked-circle';
     finishButton.onclick = onClick;
@@ -62,6 +78,7 @@ export class MoveWindowReaction implements Reaction {
     finishButton.style.marginLeft = '24px';
     finishButton.style.marginTop = '-5px';
     finishButton.style.zIndex = '2147483647';
+    finishButton.style.cursor = 'pointer';
     finishButton.style.textShadow =
       '0 0 1px rgba(0,0,0,0.24), 0 1px 1px rgba(0,0,0,0.48)';
 
